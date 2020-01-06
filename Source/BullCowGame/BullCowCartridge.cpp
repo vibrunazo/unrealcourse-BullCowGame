@@ -12,5 +12,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 {
     ClearScreen();
     PrintLine(TEXT("Cleared."));
-    FString HiddenWord = TEXT("bunda");
+    // FString HiddenWord = TEXT("bunda");
+    FString HiddenWord = Input;
+    PrintLine(HiddenWord);
 }
