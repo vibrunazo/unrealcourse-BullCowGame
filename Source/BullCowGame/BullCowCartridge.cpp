@@ -56,6 +56,10 @@ if (HiddenWord == Input)
     {
         PrintLine(TEXT("Hidden word is %i chars long."), HiddenWord.Len());
     }
+    if (!IsIsogram(Input))
+    {
+        PrintLine(TEXT("Not an isogram."));
+    }
     PrintLine(TEXT("Lives left: %i"), --Lives);
     // PrintLine(TEXT("Hidden word was: %s"), *HiddenWord);
 
@@ -65,4 +69,9 @@ if (HiddenWord == Input)
         PrintLine(TEXT("GG Motherfucker."));
         EndGame();
     }
+}
+
+bool UBullCowCartridge::IsIsogram(const FString& Input)
+{
+    return false;
 }
