@@ -4,57 +4,68 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    PrintLine(TEXT("Hi There for instance!"));
 
     SetupGame();
 
     // PrintLine(TEXT("The HiddenWord is: %s.\nIt is %i characters long"), *HiddenWord, HiddenWord.Len());
     // PrintLine(FString::Printf(TEXT("The HiddenWord is: %s"), *HiddenWord));
-    // prompts for a guess
-    PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len());
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
-    ClearScreen();
-
     // if life == 0,  game over
-    if (Lives == 0)
+    if (bGameOver)
     {
-        PrintLine(TEXT("No lives left."));
-        return;
-    }
-
-    if (HiddenWord == Input)
-    {
-        PrintLine(TEXT("YES"));
+        ClearScreen();
+        SetupGame();
     }
     else
     {
-        PrintLine(TEXT("NO"));
-        Lives--;
-        if (HiddenWord.Len() != Input.Len())
-        {
-            PrintLine(TEXT("Hidden word is %i chars long."), HiddenWord.Len());
-        }
+        PlayGame(Input);
     }
-    FString LivesText = TEXT("Lives left: ");
-    LivesText.AppendInt(Lives);
-    PrintLine(LivesText);
-    PrintLine(TEXT("Hidden word was: %s"), *HiddenWord);
-
-    // if life == 0, game over
-    if (Lives == 0)
-    {
-        PrintLine(TEXT("GG Motherfucker."));
-    }
-    // prompt to play again
-    // if yes, call begin play
-    // else, quit terminal
 }
 
 void UBullCowCartridge::SetupGame()
 {
     HiddenWord = TEXT("macaco");
     Lives = 3;
+    bGameOver = false;
+    // prompts for a guess
+    PrintLine(TEXT("Hi There for instance!"));
+    PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len());
+    PrintLine(TEXT("You have %i lives"), Lives);
+}
+
+void UBullCowCartridge::EndGame()
+{
+    bGameOver = true;
+    PrintLine(TEXT("Hidden word was: %s"), *HiddenWord);
+    PrintLine(TEXT("Press ENTER to play again."));
+}
+
+void UBullCowCartridge::PlayGame(const FString& Input)
+{
+if (HiddenWord == Input)
+    {
+        PrintLine(TEXT("YES"));
+        EndGame();
+        return;
+    }
+    PrintLine(TEXT("NO"));
+    Lives--;
+    if (HiddenWord.Len() != Input.Len())
+    {
+        PrintLine(TEXT("Hidden word is %i chars long."), HiddenWord.Len());
+    }
+    FString LivesText = TEXT("Lives left: ");
+    LivesText.AppendInt(Lives);
+    PrintLine(LivesText);
+    // PrintLine(TEXT("Hidden word was: %s"), *HiddenWord);
+
+    // if life == 0, game over
+    if (Lives == 0)
+    {
+        PrintLine(TEXT("GG Motherfucker."));
+        EndGame();
+    }
 }
