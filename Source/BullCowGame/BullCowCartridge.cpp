@@ -28,7 +28,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 void UBullCowCartridge::SetupGame()
 {
     HiddenWord = TEXT("macaco");
-    Lives = 3;
+    Lives = HiddenWord.Len();
     bGameOver = false;
     // prompts for a guess
     PrintLine(TEXT("Hi There for instance!"));
@@ -52,14 +52,11 @@ if (HiddenWord == Input)
         return;
     }
     PrintLine(TEXT("NO"));
-    Lives--;
     if (HiddenWord.Len() != Input.Len())
     {
         PrintLine(TEXT("Hidden word is %i chars long."), HiddenWord.Len());
     }
-    FString LivesText = TEXT("Lives left: ");
-    LivesText.AppendInt(Lives);
-    PrintLine(LivesText);
+    PrintLine(TEXT("Lives left: %i"), --Lives);
     // PrintLine(TEXT("Hidden word was: %s"), *HiddenWord);
 
     // if life == 0, game over
