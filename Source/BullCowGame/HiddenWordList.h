@@ -140,7 +140,7 @@ const TArray<FString> WordList =
     TEXT("Sauva"),
     TEXT("Tamandua"),
     TEXT("Tatu"),
-    TEXT("Tico"),
+    TEXT("Ticotico"),
     TEXT("Tigre"),
     TEXT("Traira"),
     TEXT("Tucano"),

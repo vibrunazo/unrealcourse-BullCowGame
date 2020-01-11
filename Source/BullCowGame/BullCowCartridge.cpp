@@ -11,16 +11,6 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     // PrintLine(TEXT("The HiddenWord is: %s.\nIt is %i characters long"), *HiddenWord, HiddenWord.Len());
     // PrintLine(FString::Printf(TEXT("The HiddenWord is: %s"), *HiddenWord));
 
-    PrintLine(TEXT("%i possible words"), WordList.Num() );
-    for (int32 i = 0; i < 10; i++)
-    {
-        if (WordList[i].Len() >= 5 && WordList[i].Len() <= 8)
-        {
-            PrintLine(WordList[i].ToLower());
-
-        }
-    }
-    
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
@@ -39,7 +29,9 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("gatinho");
+    const TArray<FString> ValidWords = GetValidWords(WordList);
+    PrintLine(TEXT("%i valid words"), ValidWords.Num());
+    HiddenWord = ValidWords[27];
     Lives = HiddenWord.Len();
     bGameOver = false;
     // prompts for a guess
@@ -95,6 +87,23 @@ bool UBullCowCartridge::IsIsogram(const FString& Input) const
             }
         }
     }
-    
     return true;
+}
+
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& Words) const
+{
+    // PrintLine(TEXT("%i possible words"), WordList.Num() );
+    TArray<FString> Result;
+    for (int32 i = 0; i < Words.Num(); i++)
+    {
+        if (Words[i].Len() >= 4 && Words[i].Len() <= 8 && IsIsogram(Words[i]))
+        {
+            Result.Emplace(WordList[i].ToLower());
+        }
+    }
+    // for (int32 i = 0; i < ValidWords.Num(); i++)
+    // {
+    //      PrintLine(ValidWords[i]);
+    // }
+    return Result;
 }
