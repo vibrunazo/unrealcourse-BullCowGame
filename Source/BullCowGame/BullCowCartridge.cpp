@@ -27,7 +27,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("macaco");
+    HiddenWord = TEXT("gatinho");
     Lives = HiddenWord.Len();
     bGameOver = false;
     // prompts for a guess
@@ -71,7 +71,18 @@ if (HiddenWord == Input)
     }
 }
 
-bool UBullCowCartridge::IsIsogram(const FString& Input)
+bool UBullCowCartridge::IsIsogram(const FString& Input) const
 {
-    return false;
+    for (int32 i = 0; i < Input.Len() - 1; i++)
+    {
+        for (int32 j = i + 1; j < Input.Len(); j++)
+        {
+            if (Input[i] == Input[j])
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
