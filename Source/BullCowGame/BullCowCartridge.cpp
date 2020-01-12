@@ -65,9 +65,8 @@ if (HiddenWord == Input)
     {
         PrintLine(TEXT("Not an isogram."));
     }
-    int32 Bulls, Cows;
-    GetBullCows(Input, Bulls, Cows);
-    PrintLine(TEXT("You have %i Bulls and %i Cows"), Bulls, Cows);
+    FBullCowCount Count = GetBullCows(Input);
+    PrintLine(TEXT("You have %i Bulls and %i Cows"), Count.Bulls, Count.Cows);
     PrintLine(TEXT("Lives left: %i"), --Lives);
     // PrintLine(TEXT("Hidden word was: %s"), *HiddenWord);
 
@@ -122,26 +121,22 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& Words) c
     return Result;
 }
 
-void UBullCowCartridge::GetBullCows(const FString& Guess, int32& BullCount, int32& CowCount) const
+FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
 {
-    BullCount = 0;
-    CowCount = 0;
+    FBullCowCount Count;
     int32 HisIndex;
-    // Guess.FindChar('w', CharIndex);
-    // UE_LOG(LogTemp, Warning, TEXT("input %s len %i wi %i"), *Guess, Guess.Len(), CharIndex);
     for (int32 i = 0; i < Guess.Len(); i++)
     {
         HiddenWord.FindChar(Guess[i], HisIndex);
-        // UE_LOG(LogTemp, Warning, TEXT("position on %c my: %i his: %i"), Guess[i], MyIndex, HisIndex);
         if (HisIndex == i)
         {
-            BullCount++;
+            Count.Bulls++;
             continue;
         }
         if (HisIndex >= 0)
         {
-            CowCount++;
+            Count.Cows++;
         }
-        
     }
+    return Count;
 }
