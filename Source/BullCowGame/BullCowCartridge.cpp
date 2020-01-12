@@ -6,6 +6,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
+    Isograms = GetValidWords(WordList);
     SetupGame();
 
     // PrintLine(TEXT("The HiddenWord is: %s.\nIt is %i characters long"), *HiddenWord, HiddenWord.Len());
@@ -29,9 +30,8 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    const TArray<FString> ValidWords = GetValidWords(WordList);
-    PrintLine(TEXT("%i valid words"), ValidWords.Num());
-    HiddenWord = ValidWords[FMath::RandRange(0, ValidWords.Num() - 1)];
+    PrintLine(TEXT("%i valid words"), Isograms.Num());
+    HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num() - 1)];
     // HiddenWord = ValidWords[0];
     Lives = HiddenWord.Len();
     bGameOver = false;
