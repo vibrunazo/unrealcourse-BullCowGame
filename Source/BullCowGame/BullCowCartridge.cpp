@@ -31,7 +31,8 @@ void UBullCowCartridge::SetupGame()
 {
     const TArray<FString> ValidWords = GetValidWords(WordList);
     PrintLine(TEXT("%i valid words"), ValidWords.Num());
-    HiddenWord = ValidWords[37];
+    HiddenWord = ValidWords[FMath::RandRange(0, ValidWords.Num() - 1)];
+    // HiddenWord = ValidWords[0];
     Lives = HiddenWord.Len();
     bGameOver = false;
     // prompts for a guess
@@ -103,14 +104,17 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& Words) c
     // }
     for (FString Word : Words)
     {
-       if (Word.Len() >= 4 && Word.Len() <= 8 && IsIsogram(Word))
+        Word = Word.ToLower();
+        if (Word.Len() >= 4 && Word.Len() <= 8 && IsIsogram(Word))
         {
-            Result.Emplace(Word.ToLower());
+            Result.Emplace(Word);
+            // UE_LOG(LogTemp, Warning, TEXT("Adding %s %d"), *Word, IsIsogram(Word));
         } 
     }
-    // for (int32 i = 0; i < ValidWords.Num();  i++)
+    // for (FString Word : Result)
     // {
-    //      PrintLine(ValidWords[i]);
+    //      PrintLine(Word);
+    //      UE_LOG(LogTemp, Warning, TEXT("%s"), *Word);
     // }
     return Result;
 }
